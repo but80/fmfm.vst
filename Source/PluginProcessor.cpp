@@ -13,12 +13,13 @@
 #include <dlfcn.h>
 
 void* fmfm;
-long long (*FMFMInit)(double p0, char* p1);
-void (*FMFMNoteOn)(long long p0, long long p1, long long p2);
-void (*FMFMNoteOff)(long long p0, long long p1);
-void (*FMFMControlChange)(long long p0, long long p1, long long p2);
-void (*FMFMProgramChange)(long long p0, long long p1);
-void (*FMFMPitchBend)(long long p0, long long p1, long long p2);
+long long (*FMFMInit)(double sampleRate, char* voicePath);
+void (*FMFMFlushMIDIMessages)(long long until);
+void (*FMFMNoteOn)(long long timestamp, long long ch, long long note, long long velocity);
+void (*FMFMNoteOff)(long long timestamp, long long ch, long long note);
+void (*FMFMControlChange)(long long timestamp, long long ch, long long cc, long long value);
+void (*FMFMProgramChange)(long long timestamp, long long ch, long long value);
+void (*FMFMPitchBend)(long long timestamp, long long ch, long long l, long long h);
 typedef struct {
 	double r0;
 	double r1;
@@ -40,9 +41,12 @@ FmfmAudioProcessor::FmfmAudioProcessor()
                        )
 #endif
 {
-    static const char* voicePathRel = "/go/src/github.com/but80/fmfm.core/voice/default.vm5";
-    static const char* modulePathRel = "/go/src/github.com/but80/fmfm.core/build/fmfm-module/fmfm.so";
+    static const char* voicePathRel = "/go/src/gopkg.in/but80/fmfm.core.v1/voice";
+    static const char* modulePathRel = "/go/src/gopkg.in/but80/fmfm.core.v1/build/fmfm-module/fmfm.so";
     char modulePath[1024];
+
+    char* gopath = getenv("GOPATH");
+    printf("GOPATH = %s\n", gopath);
 
     char* home = getenv("HOME");
     printf("HOME = %s\n", home);
@@ -58,18 +62,28 @@ FmfmAudioProcessor::FmfmAudioProcessor()
         printf("failed to load fmfm.so: %s\n", dlerror());
     } else {
         char* err;
-        FMFMInit = (long long (*)(double p0, char* p1))dlsym(fmfm, "FMFMInit");
+
+        FMFMInit = (long long (*)(double sampleRate, char* voicePath))dlsym(fmfm, "FMFMInit");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMInit: %s\n", err);
-        FMFMNoteOn = (void (*)(long long p0, long long p1, long long p2))dlsym(fmfm, "FMFMNoteOn");
+
+        FMFMFlushMIDIMessages = (void (*)(long long until))dlsym(fmfm, "FMFMFlushMIDIMessages");
+        if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMFlushMIDIMessages: %s\n", err);
+
+        FMFMNoteOn = (void (*)(long long timestamp, long long ch, long long note, long long velocity))dlsym(fmfm, "FMFMNoteOn");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMNoteOn: %s\n", err);
-        FMFMNoteOff = (void (*)(long long p0, long long p1))dlsym(fmfm, "FMFMNoteOff");
+
+        FMFMNoteOff = (void (*)(long long timestamp, long long ch, long long note))dlsym(fmfm, "FMFMNoteOff");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMNoteOff: %s\n", err);
-        FMFMControlChange = (void (*)(long long p0, long long p1, long long p2))dlsym(fmfm, "FMFMControlChange");
+
+        FMFMControlChange = (void (*)(long long timestamp, long long ch, long long cc, long long value))dlsym(fmfm, "FMFMControlChange");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMControlChange: %s\n", err);
-        FMFMProgramChange = (void (*)(long long p0, long long p1))dlsym(fmfm, "FMFMProgramChange");
+
+        FMFMProgramChange = (void (*)(long long timestamp, long long ch, long long value))dlsym(fmfm, "FMFMProgramChange");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMProgramChange: %s\n", err);
-        FMFMPitchBend = (void (*)(long long p0, long long p1, long long p2))dlsym(fmfm, "FMFMPitchBend");
+
+        FMFMPitchBend = (void (*)(long long timestamp, long long ch, long long l, long long h))dlsym(fmfm, "FMFMPitchBend");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMPitchBend: %s\n", err);
+
         FMFMNext = (FMFMNext_return (*)())dlsym(fmfm, "FMFMNext");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMNext: %s\n", err);
     }
@@ -178,6 +192,8 @@ bool FmfmAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) con
 }
 #endif
 
+static int debugCounter = 0;
+
 void FmfmAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
@@ -197,16 +213,22 @@ void FmfmAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     int midiPos;
     while (itr.getNextEvent(midiMsg, midiPos)) {
         if (midiMsg.isNoteOn()) {
-            FMFMNoteOn(0, midiMsg.getNoteNumber(), midiMsg.getVelocity());
+            // printf("FMFMNoteOn(0, %d, %d)\n", midiMsg.getNoteNumber(), midiMsg.getVelocity());
+            FMFMNoteOn(0, 0, midiMsg.getNoteNumber(), midiMsg.getVelocity());
         } else {
-            FMFMNoteOff(0, midiMsg.getNoteNumber());
+            // printf("FMFMNoteOff(0, %d)\n", midiMsg.getNoteNumber());
+            FMFMNoteOff(0, 0, midiMsg.getNoteNumber());
         }
 	}
+    FMFMFlushMIDIMessages(1);
 
     for (int i = 0; i < samples; i++) {
         FMFMNext_return next = FMFMNext();
         outL[i] = float(next.r0);
         outR[i] = float(next.r1);
+        if (i == 0 && ++debugCounter % 100 == 0) {
+            printf("FMFMNext %f\n", float(next.r0));
+        }
     }
 }
 

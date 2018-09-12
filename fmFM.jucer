@@ -9,6 +9,16 @@
               buildAAX="0" enableIAA="0">
   <MAINGROUP id="EGECZX" name="fmFM">
     <GROUP id="{15826872-FD2D-0821-BAF5-4CF592ED0634}" name="Source">
+      <FILE id="vOLNJ3" name="SlowSlider.cpp" compile="1" resource="0" file="Source/SlowSlider.cpp"/>
+      <FILE id="z2bC2z" name="SlowSlider.h" compile="0" resource="0" file="Source/SlowSlider.h"/>
+      <FILE id="uslEqZ" name="OperatorComponent.cpp" compile="1" resource="0"
+            file="Source/OperatorComponent.cpp"/>
+      <FILE id="hOv2de" name="OperatorComponent.h" compile="0" resource="0"
+            file="Source/OperatorComponent.h"/>
+      <FILE id="jZRJDL" name="VoiceComponent.cpp" compile="1" resource="0"
+            file="Source/VoiceComponent.cpp"/>
+      <FILE id="TAcpcS" name="VoiceComponent.h" compile="0" resource="0"
+            file="Source/VoiceComponent.h"/>
       <FILE id="AgFeet" name="RootComponent.cpp" compile="1" resource="0"
             file="Source/RootComponent.cpp"/>
       <FILE id="vgWp9q" name="RootComponent.h" compile="0" resource="0" file="Source/RootComponent.h"/>

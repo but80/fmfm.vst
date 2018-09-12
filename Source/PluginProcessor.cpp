@@ -192,7 +192,7 @@ bool FmfmAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) con
 }
 #endif
 
-static int debugCounter = 0;
+// static int debugCounter = 0;
 
 void FmfmAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
@@ -226,9 +226,9 @@ void FmfmAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
         FMFMNext_return next = FMFMNext();
         outL[i] = float(next.r0);
         outR[i] = float(next.r1);
-        if (i == 0 && ++debugCounter % 100 == 0) {
-            printf("FMFMNext %f\n", float(next.r0));
-        }
+        // if (i == 0 && ++debugCounter % 100 == 0) {
+        //     printf("FMFMNext %f\n", float(next.r0));
+        // }
     }
 }
 

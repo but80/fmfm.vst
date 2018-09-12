@@ -21,10 +21,9 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "PluginProcessor.h"
 //[/Headers]
 
-#include "VoiceComponent.h"
+#include "OperatorComponent.h"
 
 
 //==============================================================================
@@ -35,12 +34,13 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class RootComponent  : public Component
+class VoiceComponent  : public Component,
+                        public Slider::Listener
 {
 public:
     //==============================================================================
-    RootComponent (FmfmAudioProcessor& p);
-    ~RootComponent();
+    VoiceComponent ();
+    ~VoiceComponent();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -48,20 +48,31 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
+    void sliderValueChanged (Slider* sliderThatWasMoved) override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    FmfmAudioProcessor& processor;
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<VoiceComponent> component;
+    ScopedPointer<Slider> sliderALG;
+    ScopedPointer<Label> labelALG;
+    ScopedPointer<Slider> sliderLFO;
+    ScopedPointer<Label> labelLFO;
+    ScopedPointer<Slider> sliderPAN;
+    ScopedPointer<Label> labelPAN;
+    ScopedPointer<Slider> sliderBO;
+    ScopedPointer<Label> labelBO;
+    ScopedPointer<OperatorComponent> operator1;
+    ScopedPointer<OperatorComponent> operator2;
+    ScopedPointer<OperatorComponent> operator3;
+    ScopedPointer<OperatorComponent> operator4;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RootComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VoiceComponent)
 };
 
 //[EndFile] You can add extra defines here...

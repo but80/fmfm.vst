@@ -17,7 +17,7 @@ FmfmAudioProcessorEditor::FmfmAudioProcessorEditor (FmfmAudioProcessor& p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (800, 512);
 
     addAndMakeVisible (rootComponent);
     rootComponent.setSize (this->getWidth(), this->getHeight());

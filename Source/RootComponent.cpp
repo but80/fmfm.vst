@@ -27,30 +27,23 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-RootComponent::RootComponent (FmfmAudioProcessor& p) :
-processor(p)
+RootComponent::RootComponent (FmfmAudioProcessor& p) : processor(p)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (mult = new Slider ("MULT"));
-    mult->setTooltip (TRANS("Multiple"));
-    mult->setRange (0, 15, 1);
-    mult->setSliderStyle (Slider::RotaryVerticalDrag);
-    mult->setTextBoxStyle (Slider::TextBoxBelow, false, 80, 20);
-    mult->addListener (this);
-
-    mult->setBounds (0, 0, 80, 104);
+    addAndMakeVisible (component = new VoiceComponent());
+    component->setBounds (0, 0, 800, 512);
 
 
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (600, 400);
+    setSize (800, 512);
 
 
     //[Constructor] You can add your own custom stuff here..
-    processor.multiple = int(mult->getValue());
+    // processor.multiple = int(mult->getValue());
     //[/Constructor]
 }
 
@@ -59,7 +52,7 @@ RootComponent::~RootComponent()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    mult = nullptr;
+    component = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -87,22 +80,6 @@ void RootComponent::resized()
     //[/UserResized]
 }
 
-void RootComponent::sliderValueChanged (Slider* sliderThatWasMoved)
-{
-    //[UsersliderValueChanged_Pre]
-    //[/UsersliderValueChanged_Pre]
-
-    if (sliderThatWasMoved == mult)
-    {
-        //[UserSliderCode_mult] -- add your slider handling code here..
-        processor.multiple = int(mult->getValue());
-        //[/UserSliderCode_mult]
-    }
-
-    //[UsersliderValueChanged_Post]
-    //[/UsersliderValueChanged_Post]
-}
-
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
@@ -121,13 +98,11 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="RootComponent" componentName=""
                  parentClasses="public Component" constructorParams="FmfmAudioProcessor&amp; p"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
+                 overlayOpacity="0.330" fixedSize="1" initialWidth="800" initialHeight="512">
   <BACKGROUND backgroundColour="ff323e44"/>
-  <SLIDER name="MULT" id="3c04112e8f17022a" memberName="mult" virtualName=""
-          explicitFocusOrder="0" pos="0 0 80 104" tooltip="Multiple" min="0.00000000000000000000"
-          max="15.00000000000000000000" int="1.00000000000000000000" style="RotaryVerticalDrag"
-          textBoxPos="TextBoxBelow" textBoxEditable="1" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1.00000000000000000000" needsCallback="1"/>
+  <JUCERCOMP name="" id="444f5f92a7b4bebf" memberName="component" virtualName=""
+             explicitFocusOrder="0" pos="0 0 800 512" sourceFile="VoiceComponent.cpp"
+             constructorParams=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

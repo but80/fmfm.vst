@@ -35,7 +35,9 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class RootComponent  : public Component
+class RootComponent  : public Component,
+                       public ComboBox::Listener,
+                       public Button::Listener
 {
 public:
     //==============================================================================
@@ -44,10 +46,17 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void updateMSBCombo ();
+    void updateLSBCombo ();
+    void updatePCCombo ();
+    void updateDrumNoteCombo ();
+    void updateVoiceComponent ();
     //[/UserMethods]
 
     void paint (Graphics& g) override;
     void resized() override;
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
+    void buttonClicked (Button* buttonThatWasClicked) override;
 
 
 
@@ -57,7 +66,12 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<VoiceComponent> component;
+    ScopedPointer<VoiceComponent> voiceComponent;
+    ScopedPointer<ComboBox> bankLSBCombo;
+    ScopedPointer<ComboBox> bankMSBCombo;
+    ScopedPointer<ComboBox> pcCombo;
+    ScopedPointer<TextButton> reloadButton;
+    ScopedPointer<ComboBox> drumNoteCombo;
 
 
     //==============================================================================

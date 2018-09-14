@@ -40,17 +40,7 @@ OperatorComponent::OperatorComponent ()
     sliderMulti->setTextBoxStyle (Slider::TextBoxBelow, true, 80, 20);
     sliderMulti->addListener (this);
 
-    sliderMulti->setBounds (0, 16, 80, 104);
-
-    addAndMakeVisible (labelMulti = new Label ("multi",
-                                               TRANS("Multi")));
-    labelMulti->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    labelMulti->setJustificationType (Justification::centredBottom);
-    labelMulti->setEditable (false, false, false);
-    labelMulti->setColour (TextEditor::textColourId, Colours::black);
-    labelMulti->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    labelMulti->setBounds (0, 0, 80, 16);
+    sliderMulti->setBounds (0, 0, 80, 104);
 
     addAndMakeVisible (sliderDT = new SlowSlider ("DT"));
     sliderDT->setTooltip (TRANS("DT (Detune)"));
@@ -59,17 +49,7 @@ OperatorComponent::OperatorComponent ()
     sliderDT->setTextBoxStyle (Slider::TextBoxBelow, true, 80, 20);
     sliderDT->addListener (this);
 
-    sliderDT->setBounds (80, 16, 80, 104);
-
-    addAndMakeVisible (labelDT = new Label ("DT",
-                                            TRANS("DT")));
-    labelDT->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    labelDT->setJustificationType (Justification::centredBottom);
-    labelDT->setEditable (false, false, false);
-    labelDT->setColour (TextEditor::textColourId, Colours::black);
-    labelDT->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    labelDT->setBounds (80, 0, 80, 16);
+    sliderDT->setBounds (80, 0, 80, 104);
 
     addAndMakeVisible (sliderWS = new SlowSlider ("WS"));
     sliderWS->setTooltip (TRANS("WS (Waveshape)"));
@@ -78,17 +58,7 @@ OperatorComponent::OperatorComponent ()
     sliderWS->setTextBoxStyle (Slider::TextBoxBelow, true, 80, 20);
     sliderWS->addListener (this);
 
-    sliderWS->setBounds (160, 16, 80, 104);
-
-    addAndMakeVisible (labelWS = new Label ("WS",
-                                            TRANS("WS")));
-    labelWS->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    labelWS->setJustificationType (Justification::centredBottom);
-    labelWS->setEditable (false, false, false);
-    labelWS->setColour (TextEditor::textColourId, Colours::black);
-    labelWS->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    labelWS->setBounds (160, 0, 80, 16);
+    sliderWS->setBounds (160, 0, 80, 104);
 
     addAndMakeVisible (sliderFB = new SlowSlider ("FB"));
     sliderFB->setTooltip (TRANS("FB (Feedback)"));
@@ -97,17 +67,7 @@ OperatorComponent::OperatorComponent ()
     sliderFB->setTextBoxStyle (Slider::TextBoxBelow, true, 80, 20);
     sliderFB->addListener (this);
 
-    sliderFB->setBounds (400, 16, 80, 104);
-
-    addAndMakeVisible (labelFB = new Label ("FB",
-                                            TRANS("FB")));
-    labelFB->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    labelFB->setJustificationType (Justification::centredBottom);
-    labelFB->setEditable (false, false, false);
-    labelFB->setColour (TextEditor::textColourId, Colours::black);
-    labelFB->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    labelFB->setBounds (400, 0, 80, 16);
+    sliderFB->setBounds (400, 0, 80, 104);
 
     addAndMakeVisible (sliderTL = new SlowSlider ("TL"));
     sliderTL->setTooltip (TRANS("TL (Total Level)"));
@@ -116,17 +76,7 @@ OperatorComponent::OperatorComponent ()
     sliderTL->setTextBoxStyle (Slider::TextBoxBelow, true, 80, 20);
     sliderTL->addListener (this);
 
-    sliderTL->setBounds (240, 16, 80, 104);
-
-    addAndMakeVisible (labelTL = new Label ("TL",
-                                            TRANS("TL")));
-    labelTL->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    labelTL->setJustificationType (Justification::centredBottom);
-    labelTL->setEditable (false, false, false);
-    labelTL->setColour (TextEditor::textColourId, Colours::black);
-    labelTL->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    labelTL->setBounds (240, 0, 80, 16);
+    sliderTL->setBounds (240, 0, 80, 104);
 
     addAndMakeVisible (sliderKSL = new SlowSlider ("KSL"));
     sliderKSL->setTooltip (TRANS("KSL (Key Scaling Level)"));
@@ -135,53 +85,43 @@ OperatorComponent::OperatorComponent ()
     sliderKSL->setTextBoxStyle (Slider::TextBoxBelow, true, 80, 20);
     sliderKSL->addListener (this);
 
-    sliderKSL->setBounds (320, 16, 80, 104);
-
-    addAndMakeVisible (labelKSL = new Label ("KSL",
-                                             TRANS("KSL")));
-    labelKSL->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    labelKSL->setJustificationType (Justification::centredBottom);
-    labelKSL->setEditable (false, false, false);
-    labelKSL->setColour (TextEditor::textColourId, Colours::black);
-    labelKSL->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
-
-    labelKSL->setBounds (320, 0, 80, 16);
+    sliderKSL->setBounds (320, 0, 80, 104);
 
     addAndMakeVisible (toggleKSR = new ToggleButton ("KSR"));
     toggleKSR->setTooltip (TRANS("KSR (Key Scaling Rate)"));
     toggleKSR->addListener (this);
 
-    toggleKSR->setBounds (488, 56, 80, 32);
+    toggleKSR->setBounds (488, 40, 80, 32);
 
     addAndMakeVisible (toggleXOF = new ToggleButton ("XOF"));
     toggleXOF->setTooltip (TRANS("XOF (Ignore Keyoff)"));
     toggleXOF->addListener (this);
 
-    toggleXOF->setBounds (488, 24, 80, 32);
+    toggleXOF->setBounds (488, 8, 80, 32);
 
     addAndMakeVisible (toggleSUS = new ToggleButton ("SUS"));
     toggleSUS->setTooltip (TRANS("SUS (Keep Sustain Rate)"));
     toggleSUS->addListener (this);
 
-    toggleSUS->setBounds (488, 88, 80, 32);
+    toggleSUS->setBounds (488, 72, 80, 32);
 
     addAndMakeVisible (toggleEAM = new ToggleButton ("EAM"));
     toggleEAM->setTooltip (TRANS("EAM (Enable Amplitude Modulation)"));
     toggleEAM->addListener (this);
 
-    toggleEAM->setBounds (576, 56, 80, 32);
+    toggleEAM->setBounds (576, 40, 80, 32);
 
     addAndMakeVisible (toggleEVB = new ToggleButton ("EVB"));
     toggleEVB->setTooltip (TRANS("EVB (Enable Vibrato)"));
     toggleEVB->addListener (this);
 
-    toggleEVB->setBounds (576, 88, 80, 32);
+    toggleEVB->setBounds (576, 72, 80, 32);
 
 
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (680, 128);
+    setSize (680, 104);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -194,17 +134,11 @@ OperatorComponent::~OperatorComponent()
     //[/Destructor_pre]
 
     sliderMulti = nullptr;
-    labelMulti = nullptr;
     sliderDT = nullptr;
-    labelDT = nullptr;
     sliderWS = nullptr;
-    labelWS = nullptr;
     sliderFB = nullptr;
-    labelFB = nullptr;
     sliderTL = nullptr;
-    labelTL = nullptr;
     sliderKSL = nullptr;
-    labelKSL = nullptr;
     toggleKSR = nullptr;
     toggleXOF = nullptr;
     toggleSUS = nullptr;
@@ -330,92 +264,62 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="OperatorComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="1" initialWidth="680" initialHeight="128">
+                 fixedSize="1" initialWidth="680" initialHeight="104">
   <BACKGROUND backgroundColour="ff323e44"/>
   <SLIDER name="Multi" id="a05652be9c7a3d04" memberName="sliderMulti" virtualName=""
-          explicitFocusOrder="0" pos="0 16 80 104" tooltip="Multi (Multiplier)"
+          explicitFocusOrder="0" pos="0 0 80 104" tooltip="Multi (Multiplier)"
           min="0.00000000000000000000" max="15.00000000000000000000" int="1.00000000000000000000"
           style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxBelow"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1.00000000000000000000"
           needsCallback="1"/>
-  <LABEL name="multi" id="22d8840da18bb490" memberName="labelMulti" virtualName=""
-         explicitFocusOrder="0" pos="0 0 80 16" edTextCol="ff000000" edBkgCol="0"
-         labelText="Multi" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
-         kerning="0.00000000000000000000" bold="0" italic="0" justification="20"/>
   <SLIDER name="DT" id="429dbb6772b62ee7" memberName="sliderDT" virtualName=""
-          explicitFocusOrder="0" pos="80 16 80 104" tooltip="DT (Detune)"
+          explicitFocusOrder="0" pos="80 0 80 104" tooltip="DT (Detune)"
           min="0.00000000000000000000" max="7.00000000000000000000" int="1.00000000000000000000"
           style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxBelow"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1.00000000000000000000"
           needsCallback="1"/>
-  <LABEL name="DT" id="7fd29968f4ea1b88" memberName="labelDT" virtualName=""
-         explicitFocusOrder="0" pos="80 0 80 16" edTextCol="ff000000"
-         edBkgCol="0" labelText="DT" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
-         kerning="0.00000000000000000000" bold="0" italic="0" justification="20"/>
   <SLIDER name="WS" id="1c26170dced738b3" memberName="sliderWS" virtualName=""
-          explicitFocusOrder="0" pos="160 16 80 104" tooltip="WS (Waveshape)"
+          explicitFocusOrder="0" pos="160 0 80 104" tooltip="WS (Waveshape)"
           min="0.00000000000000000000" max="31.00000000000000000000" int="1.00000000000000000000"
           style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxBelow"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1.00000000000000000000"
           needsCallback="1"/>
-  <LABEL name="WS" id="7aad48645384a0d" memberName="labelWS" virtualName=""
-         explicitFocusOrder="0" pos="160 0 80 16" edTextCol="ff000000"
-         edBkgCol="0" labelText="WS" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
-         kerning="0.00000000000000000000" bold="0" italic="0" justification="20"/>
   <SLIDER name="FB" id="fea8f5a795433b83" memberName="sliderFB" virtualName=""
-          explicitFocusOrder="0" pos="400 16 80 104" tooltip="FB (Feedback)"
+          explicitFocusOrder="0" pos="400 0 80 104" tooltip="FB (Feedback)"
           min="0.00000000000000000000" max="7.00000000000000000000" int="1.00000000000000000000"
           style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxBelow"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1.00000000000000000000"
           needsCallback="1"/>
-  <LABEL name="FB" id="64dcbcf3b59c3c2e" memberName="labelFB" virtualName=""
-         explicitFocusOrder="0" pos="400 0 80 16" edTextCol="ff000000"
-         edBkgCol="0" labelText="FB" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
-         kerning="0.00000000000000000000" bold="0" italic="0" justification="20"/>
   <SLIDER name="TL" id="20c33b9b64806bed" memberName="sliderTL" virtualName=""
-          explicitFocusOrder="0" pos="240 16 80 104" tooltip="TL (Total Level)"
+          explicitFocusOrder="0" pos="240 0 80 104" tooltip="TL (Total Level)"
           min="0.00000000000000000000" max="63.00000000000000000000" int="1.00000000000000000000"
           style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxBelow"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1.00000000000000000000"
           needsCallback="1"/>
-  <LABEL name="TL" id="cd8ec56b6987d557" memberName="labelTL" virtualName=""
-         explicitFocusOrder="0" pos="240 0 80 16" edTextCol="ff000000"
-         edBkgCol="0" labelText="TL" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
-         kerning="0.00000000000000000000" bold="0" italic="0" justification="20"/>
   <SLIDER name="KSL" id="647b332745587f9f" memberName="sliderKSL" virtualName=""
-          explicitFocusOrder="0" pos="320 16 80 104" tooltip="KSL (Key Scaling Level)"
+          explicitFocusOrder="0" pos="320 0 80 104" tooltip="KSL (Key Scaling Level)"
           min="0.00000000000000000000" max="3.00000000000000000000" int="1.00000000000000000000"
           style="RotaryHorizontalVerticalDrag" textBoxPos="TextBoxBelow"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1.00000000000000000000"
           needsCallback="1"/>
-  <LABEL name="KSL" id="ea065854852edb8d" memberName="labelKSL" virtualName=""
-         explicitFocusOrder="0" pos="320 0 80 16" edTextCol="ff000000"
-         edBkgCol="0" labelText="KSL" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
-         kerning="0.00000000000000000000" bold="0" italic="0" justification="20"/>
   <TOGGLEBUTTON name="KSR" id="5ab7d7f7fadb9aa5" memberName="toggleKSR" virtualName=""
-                explicitFocusOrder="0" pos="488 56 80 32" tooltip="KSR (Key Scaling Rate)"
+                explicitFocusOrder="0" pos="488 40 80 32" tooltip="KSR (Key Scaling Rate)"
                 buttonText="KSR" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
   <TOGGLEBUTTON name="XOF" id="8b4cbfc38aedc256" memberName="toggleXOF" virtualName=""
-                explicitFocusOrder="0" pos="488 24 80 32" tooltip="XOF (Ignore Keyoff)"
+                explicitFocusOrder="0" pos="488 8 80 32" tooltip="XOF (Ignore Keyoff)"
                 buttonText="XOF" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
   <TOGGLEBUTTON name="SUS" id="c32ffba77e72bdbb" memberName="toggleSUS" virtualName=""
-                explicitFocusOrder="0" pos="488 88 80 32" tooltip="SUS (Keep Sustain Rate)"
+                explicitFocusOrder="0" pos="488 72 80 32" tooltip="SUS (Keep Sustain Rate)"
                 buttonText="SUS" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
   <TOGGLEBUTTON name="EAM" id="35c6822a161d3ba1" memberName="toggleEAM" virtualName=""
-                explicitFocusOrder="0" pos="576 56 80 32" tooltip="EAM (Enable Amplitude Modulation)"
+                explicitFocusOrder="0" pos="576 40 80 32" tooltip="EAM (Enable Amplitude Modulation)"
                 buttonText="EAM" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
   <TOGGLEBUTTON name="EVB" id="df48298a16b33f6c" memberName="toggleEVB" virtualName=""
-                explicitFocusOrder="0" pos="576 88 80 32" tooltip="EVB (Enable Vibrato)"
+                explicitFocusOrder="0" pos="576 72 80 32" tooltip="EVB (Enable Vibrato)"
                 buttonText="EVB" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
 </JUCER_COMPONENT>

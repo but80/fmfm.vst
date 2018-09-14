@@ -57,6 +57,13 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    //==============================================================================
+    long long listBankMSB (long long* buf);
+    long long listBankLSB (long long* buf, int msb);
+    long long listPC (long long* buf, int msb, int lsb);
+    long long listDrumNote (long long* buf, int msb, int lsb, int pc);
+    long long getVoice (unsigned char* buf, int msb, int lsb, int pc, int drumNote);
+
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FmfmAudioProcessor)

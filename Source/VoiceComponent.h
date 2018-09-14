@@ -24,6 +24,9 @@
 //[/Headers]
 
 #include "OperatorComponent.h"
+#include "OperatorComponent.h"
+#include "OperatorComponent.h"
+#include "OperatorComponent.h"
 
 
 //==============================================================================
@@ -69,6 +72,12 @@ private:
     ScopedPointer<OperatorComponent> operator2;
     ScopedPointer<OperatorComponent> operator3;
     ScopedPointer<OperatorComponent> operator4;
+    ScopedPointer<Label> labelMulti;
+    ScopedPointer<Label> labelDT;
+    ScopedPointer<Label> labelWS;
+    ScopedPointer<Label> labelFB;
+    ScopedPointer<Label> labelTL;
+    ScopedPointer<Label> labelKSL;
 
 
     //==============================================================================

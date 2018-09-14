@@ -59,17 +59,11 @@ private:
 
     //==============================================================================
     ScopedPointer<Slider> sliderMulti;
-    ScopedPointer<Label> labelMulti;
     ScopedPointer<Slider> sliderDT;
-    ScopedPointer<Label> labelDT;
     ScopedPointer<Slider> sliderWS;
-    ScopedPointer<Label> labelWS;
     ScopedPointer<Slider> sliderFB;
-    ScopedPointer<Label> labelFB;
     ScopedPointer<Slider> sliderTL;
-    ScopedPointer<Label> labelTL;
     ScopedPointer<Slider> sliderKSL;
-    ScopedPointer<Label> labelKSL;
     ScopedPointer<ToggleButton> toggleKSR;
     ScopedPointer<ToggleButton> toggleXOF;
     ScopedPointer<ToggleButton> toggleSUS;

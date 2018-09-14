@@ -12,19 +12,27 @@
 #include "PluginEditor.h"
 #include <dlfcn.h>
 
-void* fmfm;
-long long (*FMFMInit)(double sampleRate, char* voicePath);
-void (*FMFMFlushMIDIMessages)(long long until);
-void (*FMFMNoteOn)(long long timestamp, long long ch, long long note, long long velocity);
-void (*FMFMNoteOff)(long long timestamp, long long ch, long long note);
-void (*FMFMControlChange)(long long timestamp, long long ch, long long cc, long long value);
-void (*FMFMProgramChange)(long long timestamp, long long ch, long long value);
-void (*FMFMPitchBend)(long long timestamp, long long ch, long long l, long long h);
+void* fmfm = nullptr;
+long long (*FMFMLoadLibrary)(char* voicePath) = nullptr;
+long long (*FMFMInit)(double sampleRate) = nullptr;
+void (*FMFMFlushMIDIMessages)(long long until) = nullptr;
+void (*FMFMNoteOn)(long long timestamp, long long ch, long long note, long long velocity) = nullptr;
+void (*FMFMNoteOff)(long long timestamp, long long ch, long long note) = nullptr;
+void (*FMFMControlChange)(long long timestamp, long long ch, long long cc, long long value) = nullptr;
+void (*FMFMProgramChange)(long long timestamp, long long ch, long long value) = nullptr;
+void (*FMFMPitchBend)(long long timestamp, long long ch, long long l, long long h) = nullptr;
+
 typedef struct {
 	double r0;
 	double r1;
 } FMFMNext_return;
-FMFMNext_return (*FMFMNext)();
+FMFMNext_return (*FMFMNext)() = nullptr;
+
+long long (*FMFMListBankMSB)(long long* buf) = nullptr;
+long long (*FMFMListBankLSB)(long long* buf, long long msb) = nullptr;
+long long (*FMFMListPC)(long long* buf, long long msb, long long lsb) = nullptr;
+long long (*FMFMListDrumNote)(long long* buf, long long msb, long long lsb, long long pc) = nullptr;
+long long (*FMFMGetVoice)(unsigned char* buf, long long msb, long long lsb, long long pc, long long drumNote) = nullptr;
 
 static char voicePath[1024];
 
@@ -63,7 +71,10 @@ FmfmAudioProcessor::FmfmAudioProcessor()
     } else {
         char* err;
 
-        FMFMInit = (long long (*)(double sampleRate, char* voicePath))dlsym(fmfm, "FMFMInit");
+        FMFMLoadLibrary = (long long (*)(char* voicePath))dlsym(fmfm, "FMFMLoadLibrary");
+        if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMLoadLibrary: %s\n", err);
+
+        FMFMInit = (long long (*)(double sampleRate))dlsym(fmfm, "FMFMInit");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMInit: %s\n", err);
 
         FMFMFlushMIDIMessages = (void (*)(long long until))dlsym(fmfm, "FMFMFlushMIDIMessages");
@@ -86,6 +97,23 @@ FmfmAudioProcessor::FmfmAudioProcessor()
 
         FMFMNext = (FMFMNext_return (*)())dlsym(fmfm, "FMFMNext");
         if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMNext: %s\n", err);
+
+        FMFMListBankMSB = (long long (*)(long long* buf))dlsym(fmfm, "FMFMListBankMSB");
+        if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMListBankMSB: %s\n", err);
+
+        FMFMListBankLSB = (long long (*)(long long* buf, long long msb))dlsym(fmfm, "FMFMListBankLSB");
+        if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMListBankLSB: %s\n", err);
+
+        FMFMListPC = (long long (*)(long long* buf, long long msb, long long lsb))dlsym(fmfm, "FMFMListPC");
+        if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMListPC: %s\n", err);
+
+        FMFMListDrumNote = (long long (*)(long long* buf, long long msb, long long lsb, long long pc))dlsym(fmfm, "FMFMListDrumNote");
+        if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMListDrumNote: %s\n", err);
+
+        FMFMGetVoice = (long long (*)(unsigned char* buf, long long msb, long long lsb, long long pc, long long drumNote))dlsym(fmfm, "FMFMGetVoice");
+        if ((err = dlerror()) != NULL) printf("failed to dlsym FMFMGetVoice: %s\n", err);
+
+        if (!FMFMLoadLibrary(voicePath)) printf("failed to load library\n");
     }
 }
 
@@ -204,8 +232,8 @@ void FmfmAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& m
     int samples = buffer.getNumSamples();
     double sampleRate = getSampleRate();
 
-    if (FMFMInit(sampleRate, voicePath)) {
-        printf("fmFM initialized @ %f Hz, voice = %s\n", sampleRate, voicePath);
+    if (FMFMInit(sampleRate)) {
+        printf("fmFM initialized @ %f Hz\n", sampleRate);
     }
 
     MidiBuffer::Iterator itr(midiMessages);
@@ -255,6 +283,31 @@ void FmfmAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+long long FmfmAudioProcessor::listBankMSB (long long* buf)
+{
+    return FMFMListBankMSB(buf);
+}
+
+long long FmfmAudioProcessor::listBankLSB (long long* buf, int msb)
+{
+    return FMFMListBankLSB(buf, msb);
+}
+
+long long FmfmAudioProcessor::listPC (long long* buf, int msb, int lsb)
+{
+    return FMFMListPC(buf, msb, lsb);
+}
+
+long long FmfmAudioProcessor::listDrumNote (long long* buf, int msb, int lsb, int pc)
+{
+    return FMFMListDrumNote(buf, msb, lsb, pc);
+}
+
+long long FmfmAudioProcessor::getVoice (unsigned char* buf, int msb, int lsb, int pc, int drumNote)
+{
+    return FMFMGetVoice(buf, msb, lsb, pc, drumNote);
 }
 
 //==============================================================================
